@@ -75,20 +75,27 @@ int main () {
   int c;
   int pointer = 0;
 
+  // move to the first row and column
+  printf("\033[H");
+
+  // print the header
+  printf("#\tInit\tCharacter\033[K\n");
+
   while ((c = getchar()) != EOF) {
-    // move to the first row and column, clear the line from cursor to end of line
-    printf("\033[H\033[K");
+    // move to the second row, first column
+    printf("\033[2;1H");
 
     for (int i = 0; i < sum; i++) {
       if (pointer == sum) {
         pointer = 0;
       }
 
-      // set cursor to dim
-      printf("\033[0m");
+      // reset the cursor props and clear the line
+      printf("\033[K\033[0m");
       // print marker if it's this player's turn
-      if (pointer == i) printf("\033[4m> ");
-      printf("%d : %s\n\033[K", characters[i].initiative, characters[i].name);
+      // Also underscore the text
+      if (pointer == i) printf("\033[4m>");
+      printf("\t %d\t%s\n\033[K", characters[i].initiative, characters[i].name);
 
     }
 
