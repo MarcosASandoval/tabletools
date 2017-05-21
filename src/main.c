@@ -6,6 +6,8 @@ struct Character {
 };
 
 void swap(struct Character arr[], int i, int j) {
+  if (i == j) return;
+
   struct Character temp;
   temp = arr[i];
   arr[i] = arr[j];
@@ -21,14 +23,24 @@ void sortCharacters(struct Character arr[], int left, int right) {
   // btw, this is called defensive programming. Dummy
   if (left >= right) return;
 
-  // we want to set an index, then place it in the middle
-  int index, middle;
-  index = left;
-  middle = right / left;
-  swap(arr, index, middle);
+  // Set the partition element, the middle element here, on the leftmost array position
+  swap(arr, left, (left + right) / 2);
 
-  // first we split the array in two at the middle.
+  /*
+    go through the array and throw items to the left,
+    if they're smaller than the partitionElem,
+    or the left if they're smaller than the partitionElem
+  */
+  int newPartitionPosition = left;
+  for(int i = left + 1; i <= right; i++) {
+    if (arr[i].initiative < arr[left].initiative)
+      swap(arr, ++newPartitionPosition, i);
+  }
 
+  swap(arr, left, newPartitionPosition);
+
+  sortCharacters(arr, left, newPartitionPosition - 1);
+  sortCharacters(arr, newPartitionPosition + 1, right);
 }
 
 int main () {
@@ -55,7 +67,7 @@ int main () {
   }
 
   // sort the characters
-  sortCharacters(characters, sum);
+  sortCharacters(characters, 0, sum - 1);
 
   // clear the screen
   printf("\033[H\033[J");
