@@ -33,7 +33,7 @@ void sortCharacters(struct Character arr[], int left, int right) {
   */
   int newPartitionPosition = left;
   for(int i = left + 1; i <= right; i++) {
-    if (arr[i].initiative < arr[left].initiative)
+    if (arr[i].initiative > arr[left].initiative)
       swap(arr, ++newPartitionPosition, i);
   }
 
